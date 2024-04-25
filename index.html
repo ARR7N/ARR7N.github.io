@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C4 - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../C4/assets/C4logo.png" alt="C4 Logo" id="logo">
+        </div>
+            
+        <ul class="navbar">
+                <li><a href="../C4/index.html">Play</a></li>
+                <li><a href="../C4/about.html">About</a></li>
+            </ul>
+    </header>
+
+    <main>
+        <section id="teamselect">
+            <h1>Team Selection:</h1>
+            <form id="pform">
+                <div class="formgroup">
+                    <label for="p1name">Player 1 Name:</label>
+                    <input type="text" id="p1name" name="p1name">
+                </div>
+                <div class="formgroup">
+                    <label for="p1colour">Colour:</label>
+                    <div class="color-selector" id="p1colour">
+                        <div class="color-swatch" id="p1-red" data-color="red"></div>
+                        <div class="color-swatch" id="p1-blue" data-color="blue"></div>
+                    </div>
+                </div>
+                
+                <div class="formgroup">
+                    <label for="p2name">Player 2 Name:</label>
+                    <input type="text" id="p2name" name="p2name">
+                </div>
+                <div class="formgroup">
+                    <label for="p2colour">Colour:</label>
+                    <div class="color-selector" id="p2colour">
+                        <div class="color-swatch" id="p2-red" data-color="red"></div>
+                        <div class="color-swatch" id="p2-blue" data-color="blue"></div>
+                    </div>
+                </div>
+                
+                <button type="button" id="startgame">Start Game</button>
+                <button type="button" id="instructions">Instructions</button>
+            </form>
+        </section>
+    </main>
+
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="text-content">
+                <h2>How to Play</h2>
+                <h4>Gameplay</h4>
+                <ul>
+                    <li>The objective is to get 4 of your own coloured discs in a row. Rows may be Diagonal, vertical, or horizontal.</li>
+                    <li>Each player drops one of their discs into any one of the 7 columns in turn. The disc will go in the lowest point of the column.</li>
+                    <li>Players must strategise blocking their opponents moves while working on creating their line of 4</li>
+                </ul>
+                <h4>How to Win</h4>
+                <ul>
+                    <li>The game is won by the first player to succesfully connect four discs in a row.</li>
+
+                </ul>
+            </div>
+            <img src="../c4/assets/ins.png" alt="Tips and tricks for playing Connect4" id="ins">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
