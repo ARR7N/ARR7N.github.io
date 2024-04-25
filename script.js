@@ -25,7 +25,7 @@ function startGame(player1Name, player1Colour, player2Name, player2Colour) {
     localStorage.setItem('player2Name', player2Name);
     localStorage.setItem('player2Colour', player2Colour);
 
-    window.location.href = '../C4/game.html';
+    window.location.href = 'game.html';
 }
 
 document.getElementById('startgame').addEventListener('click', function() {
@@ -39,5 +39,5 @@ document.getElementById('startgame').addEventListener('click', function() {
     localStorage.setItem('player2Name', player2Name);
     localStorage.setItem('player2Colour', player2Colour);
 
-    window.location.href = '../C4/game.html';
+    window.location.href = 'game.html';
 });
