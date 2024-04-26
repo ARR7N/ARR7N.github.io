@@ -1,33 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Game JS loaded");
 
+    //player 1 - local st
     const player1 = {
         name: localStorage.getItem('player1Name') || "Player 1",
         colour: "red",
         moves: [],
         wins: parseInt(localStorage.getItem('player1Wins')) || 0
     };
-
+    //player 2 - local st
     const player2 = {
         name: localStorage.getItem('player2Name') || "Player 2",
         colour: "blue",
         moves: [],
         wins: parseInt(localStorage.getItem('player2Wins')) || 0
     };
-
+    //start as p1
     let currentPlayer = player1;
     let gameIsOver = false;
-
+    //reset board - keep score
     function resetGame() {
         currentPlayer = player1;
         gameIsOver = false;
         player1.moves = [];
         player2.moves = [];
-        // Do not reset wins or update local storage for wins here
-        initialiseGameBoard(); // Reset only the gameboard
-        // Do not call updateScoreboard here if you want the previous scores to remain visible
+        initialiseGameBoard(); 
     }
-
+    //gameboard cells
     function initialiseGameBoard() {
         const gameBoard = document.getElementById('gameBoard');
         gameBoard.innerHTML = '';
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-
+    //updates scoreboard
     function updateScoreboard() {
         const scoreboard = document.getElementById('scoreboard');
         scoreboard.innerHTML = `
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>${player2.name}: ${player2.colour} - Wins: ${player2.wins}</p>
         `;
     }
-
+    //handle game logic
     document.getElementById('gameBoard').addEventListener('click', function(event) {
         if (gameIsOver) {
             console.log("Game over. No moves allowed.");
@@ -80,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
+    //checks for winner after move
     function checkWinConditions() {
         currentPlayer.moves.forEach(move => {
             const row = parseInt(move.row);
@@ -97,12 +96,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem(currentPlayer === player1 ? 'player1Wins' : 'player2Wins', currentPlayer.wins.toString());
                     alert(`${currentPlayer.name} wins!`);
                     updateScoreboard();
-                    setTimeout(resetGame, 2000); // Reset the board for a new game, keeping scores intact
+                    setTimeout(resetGame, 2000); // Reset board
                 }
             }
         });
     }
-
+    //counts tokens
     function countConsecutive(row, col, dRow, dCol) {
         let count = 0;
         let r = row + dRow;
@@ -118,9 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return count;
     }
-
+    //reset button
     document.getElementById('resetBtn').addEventListener('click', resetGame);
 
-    initialiseGameBoard();
-    updateScoreboard(); // Initial scoreboard update to show initial values or persisted values
+    initialiseGameBoard(); //prepares board
+    updateScoreboard(); // Display new or load previous score
 });
