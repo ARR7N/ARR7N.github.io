@@ -23,20 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
         gameIsOver = false;
         player1.moves = [];
         player2.moves = [];
-        // Reset wins to 0 and update localStorage
-        player1.wins = 0;
-        player2.wins = 0;
-        localStorage.setItem('player1Wins', '0');
-        localStorage.setItem('player2Wins', '0');
-
-        initialiseGameBoard();
-        updateScoreboard();
+        // Do not reset wins or update local storage for wins here
+        initialiseGameBoard(); // Reset only the gameboard
+        // Do not call updateScoreboard here if you want the previous scores to remain visible
     }
 
     function initialiseGameBoard() {
         const gameBoard = document.getElementById('gameBoard');
         gameBoard.innerHTML = '';
-
         for (let row = 0; row < 6; row++) {
             for (let col = 0; col < 7; col++) {
                 const circle = document.createElement('div');
@@ -57,22 +51,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('gameBoard').addEventListener('click', function(event) {
-        if (gameIsOver) return;
+        if (gameIsOver) {
+            console.log("Game over. No moves allowed.");
+            return;
+        }
 
-        const circle = event.target;
-        if (circle.classList.contains('circle') && !circle.classList.contains('taken')) {
-            let col = circle.dataset.col;
-            const circlesInCol = Array.from(document.querySelectorAll(`.circle[data-col="${col}"]`)).reverse();
+        const circle = event.target.closest('.circle');
+        if (!circle || circle.classList.contains('taken')) {
+            console.log("Invalid move or circle is already taken.");
+            return;
+        }
 
-            for (let i = 0; i < circlesInCol.length; i++) {
-                let currentCircle = circlesInCol[i];
-                if (!currentCircle.classList.contains('taken')) {
-                    currentCircle.classList.add('taken', currentPlayer.colour);
-                    currentPlayer.moves.push({row: currentCircle.dataset.row, col: currentCircle.dataset.col});
+        let col = circle.dataset.col;
+        const circlesInCol = Array.from(document.querySelectorAll(`.circle[data-col="${col}"]`)).reverse();
+        for (let i = 0; i < circlesInCol.length; i++) {
+            let currentCircle = circlesInCol[i];
+            if (!currentCircle.classList.contains('taken')) {
+                currentCircle.classList.add('taken', currentPlayer.colour);
+                currentPlayer.moves.push({row: currentCircle.dataset.row, col: currentCircle.dataset.col});
+                if (!gameIsOver) {
                     checkWinConditions();
-                    currentPlayer = currentPlayer === player1 ? player2 : player1;
-                    break;
+                    if (!gameIsOver) {
+                        currentPlayer = currentPlayer === player1 ? player2 : player1;
+                    }
                 }
+                console.log(`Move made by ${currentPlayer.name} at row ${currentCircle.dataset.row}, col ${currentCircle.dataset.col}`);
+                break;
             }
         }
     });
@@ -87,12 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 countConsecutive(row, col, 1, 1) + countConsecutive(row, col, -1, -1) >= 3 ||
                 countConsecutive(row, col, 1, -1) + countConsecutive(row, col, -1, 1) >= 3
             ) {
-                gameIsOver = true;
-                currentPlayer.wins++;
-                localStorage.setItem(currentPlayer === player1 ? 'player1Wins' : 'player2Wins', currentPlayer.wins);
-                updateScoreboard();
-                alert(`${currentPlayer.name} wins!`);
-                resetGame();  // Optionally reset the game here
+                if (!gameIsOver) {
+                    gameIsOver = true;
+                    currentPlayer.wins++;
+                    localStorage.setItem(currentPlayer === player1 ? 'player1Wins' : 'player2Wins', currentPlayer.wins.toString());
+                    alert(`${currentPlayer.name} wins!`);
+                    updateScoreboard();
+                    setTimeout(resetGame, 2000); // Reset the board for a new game, keeping scores intact
+                }
             }
         });
     }
@@ -116,5 +122,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('resetBtn').addEventListener('click', resetGame);
 
     initialiseGameBoard();
-    updateScoreboard();
+    updateScoreboard(); // Initial scoreboard update to show initial values or persisted values
 });
