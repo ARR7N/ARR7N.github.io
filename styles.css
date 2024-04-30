@@ -4,8 +4,6 @@
     box-sizing: border-box;
 }
 
-
-
 header {
     display: flex;
     align-items: center;
@@ -202,7 +200,7 @@ main .content-container .text-content {
     padding-left: 65px;
 }
 
-main .content-container .image-content {
+main .content-container {
     flex-basis: 50%;
     display: flex;
     justify-content: center;
@@ -215,10 +213,17 @@ main .content-container .image-content {
     }
 
     main .content-container .text-content,
-    main .content-container .image-content {
+    main .content-container {
         flex-basis: auto; 
         padding: 0; 
     }
+}
+
+.image-content {
+    flex: 1;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
   
 
@@ -314,4 +319,13 @@ footer a {
 
 .blue {
     background-color: blue;
+}
+
+.text-box {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 20px; 
+    border-radius: 8px; 
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
